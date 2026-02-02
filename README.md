@@ -1,2 +1,2 @@
 # PS-Library
-lgorithum/problem solving practice recording on the codetree.
+Algorithum/Problem Solving practice recording on Codetree.
