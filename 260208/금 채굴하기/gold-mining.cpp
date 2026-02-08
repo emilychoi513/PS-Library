@@ -10,26 +10,16 @@ int numGold(int k, int cost, int x, int y){
     bool boundaryExit = false;
 
     for(int dx=-k; dx<=k; dx++){
-        if(x+dx < 0 || x+dx >= n){
-            boundaryExit = true;
-            break;
-        }
+        if(x+dx < 0 || x+dx >= n) continue;
 
         for(int dy=-(k-abs(dx)); dy<=k-abs(dx); dy++){
-            if(y+dy < 0 || y+dy >= n){
-                boundaryExit = true;
-                break;
-            }
+            if(y+dy < 0 || y+dy >= n) continue;
 
             cntGold += grid[x+dx][y+dy];
         }
-
-        if(boundaryExit) break;
     }
 
-    if(boundaryExit){
-        return 0;
-    }else if(cost > cntGold * m){
+    if(cost > cntGold * m){
         return 0;
     }else{
         return cntGold;
@@ -49,7 +39,7 @@ int main() {
 
     int res = 0;
 
-    for(int K=(n-1)/2; K>=0; K--){
+    for(int K=0; K<=n+1; K++){
         int Cost = K*K + (K+1)*(K+1);
         for(int X=0; X<n; X++){
             for(int Y=0; Y<n; Y++){
