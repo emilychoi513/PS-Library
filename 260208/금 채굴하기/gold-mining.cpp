@@ -7,7 +7,6 @@ int grid[20][20];
 
 int numGold(int k, int cost, int x, int y){
     int cntGold = 0;
-    bool boundaryExit = false;
 
     for(int dx=-k; dx<=k; dx++){
         if(x+dx < 0 || x+dx >= n) continue;
