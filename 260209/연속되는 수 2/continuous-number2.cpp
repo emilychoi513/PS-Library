@@ -13,7 +13,7 @@ int main() {
     }
 
     int cnt, mcnt;
-    cnt = 0;
+    cnt = 1;
     mcnt = 1;
     for(int i=1; i<N; i++){
         if(arr[i-1] == arr[i]){
