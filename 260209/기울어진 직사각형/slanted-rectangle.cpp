@@ -1,3 +1,8 @@
+/*
+    modify version that refer the answer code
+    But, not perfect. need optimalization
+*/
+
 #include <iostream>
 #include <algorithm>
 
