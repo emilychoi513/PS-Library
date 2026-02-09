@@ -24,6 +24,8 @@ int main() {
         }
     }
 
+    mcnt = max(mcnt, cnt);
+
     cout << mcnt;
 
     return 0;
