@@ -6,40 +6,30 @@ using namespace std;
 int n;
 int grid[20][20];
 
+bool checkRange(int x, int y){
+    return (x>=0 && x<n && y>=0 && y<n);
+}
+
 int getSum(int x, int y, int w, int h){
+    int dir = 4;
+    int dx[dir] = {-1, -1, 1, 1};
+    int dy[dir] = {1, -1, -1, 1};
+    int numMove[dir] = {w, h, w, h};
+
     int sum = 0;
+    for(int i=0; i<dir; i++){
+        for(int m=0; m<numMove[i]; m++){
+            x += dx[i];
+            y += dy[i];
 
-    //화살표 시작 포함. 화살표 끝 불포함
-    for(int i=0; i<w; i++){
-        sum += grid[x-i][y+i];  //1
-    }
+            if(!checkRange(x, y)) return 0;
 
-    for(int j=0; j<h; j++){
-        sum += grid[x-w-j][y+w-j];  //2
-    }
-
-    for(int i=0; i<w; i++){
-        sum += grid[x-w-h+i][y+w-h-i];  //3
-    }
-
-    for(int j=0; j<h; j++){
-        sum += grid[x-h+j][y-h+j];  //4
+            sum += grid[x][y];
+        }
     }
 
     return sum;
 }
-
-int getPosMax(int x, int y){
-    int posMax = 0; //현재 위치에서 가질 수 있는 최댓값
-
-    for(int w=1; y+w < n; w++){
-        for(int h=1; y-h>=0 && x-w-h>=0; h++){
-            posMax = max(posMax, getSum(x, y, w, h));
-        }
-    }
-    return posMax;
-}
-
 
 int main() {
     cin >> n;
@@ -51,13 +41,16 @@ int main() {
     }
 
     int mx = 0;
-    for(int x=2; x<n; x++){
-        for(int y=1; y<n-1; y++){
-            mx = max(mx, getPosMax(x, y));
+    for(int x=0; x<n; x++){
+        for(int y=0; y<n; y++){
+            for(int w=1; w<n; w++){
+                for(int h=1; h<n; h++){
+                    mx = max(mx, getSum(x, y, w, h));
+                }
+            }
         }
     }
 
     cout << mx;
-
     return 0;
 }
