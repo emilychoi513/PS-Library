@@ -35,7 +35,7 @@ int main() {
     for(int i=0; i<len; i++){
         cout<< T[i] << " ";
 
-        if(i == 2 || i == 5) cout << '\n';
+        if(i == n-1 || i == 2 * n - 1) cout << '\n';
     }
 
     return 0;
