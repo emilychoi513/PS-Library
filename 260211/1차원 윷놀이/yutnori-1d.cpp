@@ -12,7 +12,6 @@ int mcnt = 0; // output
 
 int Count(){
     int cnt = 0;
-
     for(int i=0; i<k; i++){
         if(horse[i] >= m) cnt++;
     }
@@ -22,13 +21,9 @@ int Count(){
 void maxScore(int step){ 
     int i, j;
 
-    if(Count() == k){
-        mcnt = k;
-        return;
-    }
+    mcnt = max(mcnt, Count());
 
     if(step == n){
-        mcnt = max(mcnt, Count());
         return;
     }
 
