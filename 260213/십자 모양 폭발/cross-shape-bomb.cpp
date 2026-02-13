@@ -29,9 +29,9 @@ void boom(int bound, int x, int y){
     }
 }
 
-void gravity(int col){
+void gravity(){
     for(int col=0; col<n; col++){
-        
+
         vector<int> temp(n, 0);
         int cnt = 0;
 
@@ -65,9 +65,7 @@ int main() {
     r--; c--;
     boom(grid[r][c], r, c);
 
-    for(int col=0; col<n; col++){
-        gravity(col);
-    }
+    gravity();
 
     for(int i=0; i<n; i++){
         for(int j=0; j<n; j++){
