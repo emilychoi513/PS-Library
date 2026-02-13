@@ -30,20 +30,22 @@ void boom(int bound, int x, int y){
 }
 
 void gravity(int col){
-    vector<int> temp(n, 0);
-    int cnt = 0;
+    for(int col=0; col<n; col++){
+        
+        vector<int> temp(n, 0);
+        int cnt = 0;
 
-    for(int row=n-1; row>=0; row--){
-        if(grid[row][col] == 0) continue;
+        for(int row=n-1; row>=0; row--){
+            if(grid[row][col] == 0) continue;
 
-        temp[cnt] = grid[row][col];
-        cnt++;
+            temp[cnt] = grid[row][col];
+            cnt++;
+        }
+
+        for(int row=n-1; row>=0; row--){
+            grid[row][col] = temp[(n-1)-row];
+        }
     }
-
-    for(int row=n-1; row>=0; row--){
-        grid[row][col] = temp[(n-1)-row];
-    }
-
 }
 
 
