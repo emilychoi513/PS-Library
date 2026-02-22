@@ -1,4 +1,5 @@
 #include <iostream>
+#include <algorithm>
 using namespace std;
 
 int n, m;
@@ -27,7 +28,7 @@ int main() {
     }
 
     DFS(1);
-    cout << cnt-1;
+    cout << max(0, cnt-1);
 
     return 0;
 }
