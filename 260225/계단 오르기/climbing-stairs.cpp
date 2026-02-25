@@ -1,6 +1,7 @@
 #include <iostream>
 #include <algorithm>
 #define MAX 1000
+#define SET 10007
 
 using namespace std;
 
@@ -13,7 +14,8 @@ int dp(int step){
     if(method[step] != -1){
         return method[step];
     }else{
-        return method[step] = dp(step-2) + dp(step-3);
+        long long result = (dp(step-2) + dp(step-3)) % SET;
+        return method[step] = result;
     }
 }
 
