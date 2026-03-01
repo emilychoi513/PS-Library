@@ -4,7 +4,7 @@ using namespace std;
 
 int n;
 int grid[100][100];
-int dp[100][100]; //min 값 저장
+int mn[100][100]; //min 값 저장
 
 int main() {
     cin >> n;
@@ -16,30 +16,31 @@ int main() {
     }
 
     //초기화
-    dp[0][0] = grid[0][0];
+    mn[0][0] = grid[0][0];
     for(int i=1; i<n; i++){
-        dp[i][0] = min(grid[i][0], grid[i-1][0]);
+        mn[i][0] = min(grid[i][0], mn[i-1][0]);
     }
 
     for(int j=1; j<n; j++){
-        dp[0][j] = min(grid[0][j], grid[0][j-1]);
+        mn[0][j] = min(grid[0][j], mn[0][j-1]);
     }
 
     for(int i=1; i<n; i++){
         for(int j=1; j<n; j++){
-            int tmp = max(dp[i-1][j], dp[i][j-1]);
-            dp[i][j] = min(tmp, grid[i][j]);
+            int tmp = max(mn[i-1][j], mn[i][j-1]);
+            mn[i][j] = min(tmp, grid[i][j]);
         }
     }
 
     /*
     for(int i=0; i<n; i++){
         for(int j=0; j<n; j++){
-            cout << dp[i][j] << " ";
+            cout << mn[i][j] << " ";
         }cout << endl;
     }cout << endl;
     */
-    cout << dp[n-1][n-1];
+    
+    cout << mn[n-1][n-1];
 
     return 0;
 }
