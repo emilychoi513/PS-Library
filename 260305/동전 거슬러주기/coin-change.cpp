@@ -27,24 +27,25 @@ int main() {
 
     for(int i=1; i<=M; i++){ //dp
         for(int j=0; j<N; j++){
-            if(i - coin[j] >= 0){
+            if(i >= coin[j]){
+                if(dp[i-coin[j]] == INT_MAX) continue;
+                
                 dp[i] = min(dp[i], dp[i - coin[j]] + 1);
             }
         }
     }
-    
-    /*    
+     
+    /*
     for(int i=1; i<=M; i++){
         cout << dp[i] << " ";
     }cout << endl;
     */
 
-    if(dp[M] == INT_MAX){
-        cout << -1;
-        return 0;
-    }else{
-        cout << dp[M];
+    int ans = dp[M];
+    if(ans == INT_MAX){
+        ans = -1;
     }
 
+    cout << ans;
     return 0;
 }
