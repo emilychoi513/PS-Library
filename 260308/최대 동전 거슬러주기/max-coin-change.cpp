@@ -39,7 +39,7 @@ int main() {
     }cout << endl;
 */
     int ans = dp[M];
-    if(ans == 0) ans = -1;
+    if(ans == INT_MIN) ans = -1;
     cout << ans;
 
     return 0;
