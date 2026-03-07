@@ -17,10 +17,22 @@ int main() {
     for(int i=0; i<n; i++){
         for(int j=m; j>=0; j--){
             if(j >= A[i]){
-                sum[j] = min(sum[j-A[i]], 1);
+                sum[j] = max(sum[j], sum[j-A[i]]);
             }
         }
+
+        /*
+        for(int k=1; k<=m; k++){
+            cout << sum[k] << " ";
+        }cout << endl; */
     }
+/*
+    cout << endl << endl;
+
+    for(int i=1; i<=m; i++){
+        cout << sum[i] << " ";
+    }cout << endl;
+*/
     if(sum[m] == 1) cout << "Yes";
     else cout << "No";
 
