@@ -19,7 +19,11 @@ int run(int x, int y, int rot){
     int ny = y + dy[rot]; // 다음 스텝
 
     if(nx == init_x && ny == init_y) return -1; // 실패 조건: 자기 자신으로 돌아올때
-    if(grid[x+dx[0]][y+dy[0]]=='#' && grid[x+dx[1]][y+dy[1]]=='#' && grid[x+dx[2]][y+dy[2]]=='#' && grid[x+dx[3]][y+dy[3]]=='#') return -1;
+    if((grid[x+dx[0]][y+dy[0]]=='#' && !exit(x+dx[0], y+dy[0]))
+     && (grid[x+dx[1]][y+dy[1]]=='#' && !exit(x+dx[1], y+dy[1]))
+     && (grid[x+dx[2]][y+dy[2]]=='#' && !exit(x+dx[2], y+dy[2]))
+     && (grid[x+dx[3]][y+dy[3]]=='#' && !exit(x+dx[3], y+dy[3]))
+     ) return -1;
 
     if(grid[nx][ny] == '#'){ // step 1: 방향 전환
         //cout << "turn " << (rot+1)%4 << endl;
