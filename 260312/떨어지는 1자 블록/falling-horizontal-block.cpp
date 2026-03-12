@@ -28,6 +28,8 @@ int main() {
         if(row != 0) break;
     }
 
+    if(row == 0) row = n-1;
+
     for(int j=k; j<m+k; j++){
         grid[row][j] = 1;
     }
