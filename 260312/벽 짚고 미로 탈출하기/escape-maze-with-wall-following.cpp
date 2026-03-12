@@ -1,5 +1,4 @@
 #include <iostream>
-
 using namespace std;
 
 int N;
@@ -14,17 +13,21 @@ bool exit(int x, int y){
 }
 
 int run(int x, int y, int rot){
+    //cout << "( " << x << ", " << y << " )" << endl;
+
     int nx = x + dx[rot];
     int ny = y + dy[rot]; // 다음 스텝
 
-    if(nx == init_x && ny == init_y) return -1; // 실패 조건: 자기 자신으로 돌아올때
+    if(nx == init_x && ny == init_y && cnt > 0) return -1; // 실패 조건: 자기 자신으로 돌아올때
 
     if(grid[nx][ny] == '#'){ // step 1: 방향 전환
-        rot = (rot + 1) % 4;
-        return run(nx, ny, rot);
+        //cout << "turn " << (rot+1)%4 << endl;
+        return run(x, y, ((rot+1)%4));
     }else{
+        //cout << "( " << x << ", " << y << " )" << endl;
         cnt++; // next가 벽만 아니면 일단 이동할 것이므로
     }
+
 
     if(exit(nx, ny)){ // step 2 --- case 1: next가 격자 밖
         return cnt;
