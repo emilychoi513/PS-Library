@@ -16,7 +16,7 @@ int main() {
 
     k = k-1; // 순서 고려
 
-    int row = 0;
+    int row = -1;
     for(int i=0; i<n; i++){
         for(int j=k; j<m+k; j++){
             if(grid[i][j] == 1){
@@ -25,10 +25,10 @@ int main() {
             }
         }
 
-        if(row != 0) break;
+        if(row != -1) break;
     }
 
-    if(row == 0) row = n-1;
+    if(row == -1) row = n-1;
 
     for(int j=k; j<m+k; j++){
         grid[row][j] = 1;
