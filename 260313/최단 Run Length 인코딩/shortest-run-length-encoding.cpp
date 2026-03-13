@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <algorithm>
+#include <climits>
 
 using namespace std;
 
@@ -34,7 +35,7 @@ int lengthCheck(){
             }
         }
     }
-
+    //cout << change << endl;
     //cout << 2 * change << endl;
 
     return (2 * change);
@@ -50,8 +51,8 @@ void shift(){
     /*
     for(int i=0; i<len; i++){
         cout << A[i] << " ";
-    }endl;
-    */
+    }*/
+    
 }
 
 int main() {
@@ -59,7 +60,7 @@ int main() {
 
     len = A.size();
 
-    mn = 10;
+    mn = INT_MAX;
     for(int i=0; i<len; i++){
         shift();
         mn = min(mn, lengthCheck());
