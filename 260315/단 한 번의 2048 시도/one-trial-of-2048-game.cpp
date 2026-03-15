@@ -64,6 +64,16 @@ int main() {
                     grid[i][j+1] = tmp;
                 }
             }
+        }for(int i=0; i<4; i++){
+            for(int j=0; j<4; j++){
+                if(j==3) continue;
+
+                if(grid[i][j]==0){
+                    int tmp = grid[i][j];
+                    grid[i][j] = grid[i][j+1];
+                    grid[i][j+1] = tmp;
+                }
+            }
         }
 
         //print();
@@ -97,6 +107,17 @@ int main() {
 
         //print();
 
+        for(int i=0; i<4; i++){
+            for(int j=3; j>=0; j--){
+                if(j==0) continue;
+
+                if(grid[i][j]==0){
+                    int tmp = grid[i][j];
+                    grid[i][j] = grid[i][j-1];
+                    grid[i][j-1] = tmp;
+                }
+            }
+        }
         for(int i=0; i<4; i++){
             for(int j=3; j>=0; j--){
                 if(j==0) continue;
@@ -151,6 +172,17 @@ int main() {
                 }
             }
         }
+        for(int j=0; j<4; j++){
+            for(int i=0; i<4; i++){
+                if(i==3) continue;
+
+                if(grid[i][j]==0){
+                    int tmp = grid[i][j];
+                    grid[i][j] = grid[i+1][j];
+                    grid[i+1][j] = tmp;
+                }
+            }
+        }
 
         //print();
     }
@@ -184,6 +216,16 @@ int main() {
         //print();
 
         for(int j=0; j<4; j++){
+            for(int i=3; i>=0; i--){
+                if(i==0) continue;
+
+                if(grid[i][j]==0){
+                    int tmp = grid[i][j];
+                    grid[i][j] = grid[i-1][j];
+                    grid[i-1][j] = tmp;
+                }
+            }
+        }for(int j=0; j<4; j++){
             for(int i=3; i>=0; i--){
                 if(i==0) continue;
 
