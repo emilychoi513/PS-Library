@@ -16,7 +16,7 @@ void Choose(int cnt, int idx){
 
     for(int i=idx; i<n; i++){
         XOR = XOR ^ A[i];
-        Choose(cnt + 1, idx + 1);
+        Choose(cnt + 1, i + 1);
         XOR = XOR ^ A[i];
     }
 }
