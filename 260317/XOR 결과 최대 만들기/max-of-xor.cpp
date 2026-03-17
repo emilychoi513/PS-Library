@@ -7,18 +7,17 @@ int A[20];
 int XOR;
 int MAX;
 
-void Choose(int cnt, int idx){
+void Choose(int idx, int cnt, int val){
     if(cnt == m){
         //cout << XOR << endl;
-        MAX = max(MAX, XOR);
+        MAX = max(MAX, val);
         return;
     }
 
-    for(int i=idx; i<n; i++){
-        XOR = XOR ^ A[i];
-        Choose(cnt + 1, i + 1);
-        XOR = XOR ^ A[i];
-    }
+    if(idx >= n || n - idx < m - cnt) return;
+
+    Choose(idx+1, cnt+1, val ^ A[idx]);
+    Choose(idx+1, cnt, val);
 }
 
 int main() {
@@ -29,7 +28,7 @@ int main() {
 
     XOR = 0;
     MAX = 0;
-    Choose(0, 0);
+    Choose(0, 0, 0);
 
     cout << MAX;
 
