@@ -15,29 +15,17 @@ bool Exit(int x, int y){
 }
 
 void Move(int x, int y, int cnt){
-    if(Exit(x, y)) {
-        //cout << cnt << endl;
-        answer = max(answer, cnt);
-        return;
-    }
-
+    
+    answer = max(answer, cnt);
+    
     int v = num[x][y];
     int d = dir[x][y];
 
-    bool can_move = false;
     for(int i=1; i<n; i++){
         int nx = x + dx[d] * i;
         int ny = y + dy[d] * i;
-        if(num[nx][ny] > v) {
-            can_move = true;
-            Move(nx, ny, cnt+1);
-        }
-    }
-
-    if(!can_move){
-        //cout << cnt << endl;
-        answer = max(answer, cnt);
-        return;
+        if(num[nx][ny] <= v) continue;
+        Move(nx, ny, cnt+1);
     }
 }
 
