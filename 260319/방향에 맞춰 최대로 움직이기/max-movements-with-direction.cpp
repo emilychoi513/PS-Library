@@ -14,8 +14,11 @@ bool Exit(int x, int y){
     return (x<0 || x>=n || y<0 || y>=n);
 }
 
+bool CanGo(int x, int y, int prev_num) {
+    return (!Exit(x, y)) && num[x][y] > prev_num;
+}
+
 void Move(int x, int y, int cnt){
-    
     answer = max(answer, cnt);
     
     int v = num[x][y];
@@ -24,8 +27,9 @@ void Move(int x, int y, int cnt){
     for(int i=1; i<n; i++){
         int nx = x + dx[d] * i;
         int ny = y + dy[d] * i;
-        if(num[nx][ny] <= v) continue;
-        Move(nx, ny, cnt+1);
+        if(CanGo(nx, ny, v)){
+            Move(nx, ny, cnt+1);
+        }
     }
 }
 
