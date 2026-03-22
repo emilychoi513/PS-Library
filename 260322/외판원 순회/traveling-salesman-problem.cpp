@@ -10,7 +10,7 @@ int answer;
 int tmp;
 
 void Move(int curr, int cnt){
-    if(cnt == n-1){
+    if(cnt == n){
         if(A[curr][0] == 0) return;
 
         answer = min(answer, tmp + A[curr][0]);
@@ -44,7 +44,7 @@ int main() {
     tmp = 0;
 
     visited[0] = 1;
-    Move(0, 0);
+    Move(0, 1);
 
     cout << answer;
 
