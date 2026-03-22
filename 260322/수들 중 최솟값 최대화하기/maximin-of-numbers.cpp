@@ -5,15 +5,14 @@ using namespace std;
 
 int n;
 int A[10][10];
-int visitedRow[10];
 int visitedCol[10];
 vector<int> v;
 int global_min;
 
-void Move(int cnt){
-    if(cnt == n){
+void Move(int row){
+    if(row == n){
         int local_min = v[0];
-        for(int i=0; i<n; i++){
+        for(int i=0; i<row; i++){
             //cout << v[i] << " ";
             local_min = min(local_min, v[i]);
         }//cout << endl;
@@ -22,21 +21,17 @@ void Move(int cnt){
         return;
     }
 
-    for(int i=0; i<n; i++){
-        if(visitedRow[i]) continue;
-        for(int j=0; j<n; j++){
-            if(visitedCol[j]) continue;
+    
+    for(int j=0; j<n; j++){
+        if(visitedCol[j]) continue;
 
-            visitedRow[i] = 1;
-            visitedCol[j] = 1;
-            v.push_back(A[i][j]);
+        visitedCol[j] = 1;
+        v.push_back(A[row][j]);
 
-            Move(cnt + 1);
+        Move(row + 1);
 
-            visitedRow[i] = 0;
-            visitedCol[j] = 0;
-            v.pop_back();
-        }
+        visitedCol[j] = 0;
+        v.pop_back();
     }
 }
 
