@@ -21,13 +21,11 @@ void Move(int curr, int cnt){
         if(visited[i]) continue;
         if(A[curr][i] == 0) continue;
 
-        v.push_back(i);
         tmp += A[curr][i];
         visited[i] = 1;
 
         Move(i, cnt + 1);
 
-        v.pop_back();
         tmp -= A[curr][i];
         visited[i] = 0;
     }
