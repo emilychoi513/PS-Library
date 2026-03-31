@@ -21,6 +21,8 @@ bool CanGo(int x, int y){
 }
 
 void Push(int x, int y){
+    if(answer[x][y]) return;
+    
     q.push(make_pair(x, y));
     visited[x][y] = true;
     answer[x][y] = true;
