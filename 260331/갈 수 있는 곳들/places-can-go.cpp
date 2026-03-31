@@ -6,6 +6,7 @@ using namespace std;
 
 int n, k;
 int a[100][100];
+pair<int, int> p[100 * 100];
 vector<vector<bool>> visited;
 vector<vector<bool>> answer(100, vector<bool>(100, false));
 queue<pair<int, int>> q;
@@ -63,14 +64,14 @@ int main() {
         }
     }
 
-    int x, y;
     for(int i=0; i<k; i++){
-        cin >> x >> y;
+        cin >> p[i].first >> p[i].second;
+    }
 
+    for(int i=0; i<k; i++){
         visited.assign(n, vector<bool>(n, false));
-        Push(x-1, y-1);
+        Push(p[i].first - 1, p[i].second -1);
         BFS();
-        //Print();
     }
 
     int Sum = 0;
