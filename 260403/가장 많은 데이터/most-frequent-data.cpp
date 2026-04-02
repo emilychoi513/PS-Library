@@ -8,9 +8,12 @@ using namespace std;
 int n;
 string words[100000];
 unordered_map<string, int> m;
+int answer;
 
 int main() {
     cin >> n;
+
+    answer = 0;
     for (int i = 0; i < n; i++) {
         cin >> words[i];
 
@@ -19,15 +22,11 @@ int main() {
         }else{
             m[words[i]]++;
         }
+        
+        answer = max(answer, m[words[i]]);
     }
 
-    int mx = 0;
-    for(auto it = m.begin(); it != m.end(); it++){
-        //cout << it->second << endl;
-        mx = max(mx, it -> second);
-    }
-
-    cout << mx;
+    cout << answer;
 
     return 0;
 }
