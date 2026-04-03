@@ -1,30 +1,39 @@
 #include <iostream>
 #include <unordered_map>
+
 using namespace std;
 
 int n, k;
 int arr[100000];
 unordered_map<int, int> m;
-int answer;
 
 int main() {
     cin >> n >> k;
     for (int i = 0; i < n; i++) {
         cin >> arr[i];
+
+        m[arr[i]]++;
+    }
+
+    int answer = 0;
+    for (const auto& [key, value] : m) {
+        int curr = 0;
+        int cmp = k - key;
         
-        m.insert({arr[i], i});
+        //same num
+        if(cmp == key){
+            curr = (value - 1) * value;
+        }
+        else if(m.find(cmp) != m.end()){
+            curr = (m[cmp]);
+        }
+
+        //cout << curr << " ";
+        answer += curr;
     }
 
-    answer = 0;
-    for(int i=0; i<n; i++){
-        auto it = m.find(k - arr[i]);
+    cout << answer/2;
+        
 
-        if(it == m.end()) continue;
-        if(it->second <= i) continue;
-
-        answer++;
-    }
-
-    cout << answer;
     return 0;
 }
