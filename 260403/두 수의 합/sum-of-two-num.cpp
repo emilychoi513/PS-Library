@@ -25,7 +25,7 @@ int main() {
             curr = (value - 1) * value;
         }
         else if(m.find(cmp) != m.end()){
-            curr = (m[cmp]);
+            curr = (m[cmp]) * value;
         }
 
         //cout << curr << " ";
