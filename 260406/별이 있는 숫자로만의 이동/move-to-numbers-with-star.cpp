@@ -18,7 +18,7 @@ int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);
     cout.tie(NULL);
-    
+
     cin >> n >> k;
 
     for (int i = 1; i <= n; i++) {
@@ -41,7 +41,7 @@ int main() {
             int Sum = 0;
             for(int r=-k; r<=k; r++){
                 int row = r + i;
-                if(row <= 0) continue;
+                if(row <= 0 || row > n) continue;
 
                 int bound = k - abs(r);
                 int right = min(n, j + bound);
