@@ -3,7 +3,6 @@
 using namespace std;
 
 int N, Q;
-int arr[1000000 + 1];
 int points[1000000 + 1];
 
 int main() {
@@ -12,12 +11,11 @@ int main() {
     for (int i = 0; i < N; i++) {
         int p;
         cin >> p;
-        arr[p] = 1;
+        points[p]++;
     }
 
-    points[0] = arr[0];
     for(int i=1; i<=1000000; i++){
-        points[i] = points[i-1] + arr[i];
+        points[i] += points[i-1];
     }
 
     for (int i = 0; i < Q; i++) {
