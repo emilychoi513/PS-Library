@@ -32,7 +32,7 @@ int main() {
     if(str[pre_idx] == '(') Open.push_back(make_pair(pre_idx, cnt));
     else Close.push_back(make_pair(pre_idx, cnt));
 
-    int ans = 0;
+    long long ans = 0;
     for(auto x:Open){
         for(auto y:Close){
             if(x.first + (x.second - 1) < y.first){
