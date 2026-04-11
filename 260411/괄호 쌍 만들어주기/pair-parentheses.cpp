@@ -40,7 +40,7 @@ int main() {
         for(auto y:Close){
             if(x.first + (x.second - 1) > y.first) continue;
             
-            ans = ans + (x.second - 1)*(y.second - 1);
+            ans += (long long)(x.second - 1)*(long long)(y.second - 1);
         }
     }
 
