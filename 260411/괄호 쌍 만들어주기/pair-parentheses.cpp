@@ -32,12 +32,15 @@ int main() {
     if(str[pre_idx] == '(') Open.push_back(make_pair(pre_idx, cnt));
     else Close.push_back(make_pair(pre_idx, cnt));
 
+    //for(auto x:Open) cout << x.first << " " << x.second << endl;
+    //for(auto y:Close) cout << y.first << " " << y.second << endl;
+
     long long ans = 0;
     for(auto x:Open){
         for(auto y:Close){
-            if(x.first + (x.second - 1) < y.first){
-                ans += (x.second - 1) * (y.second - 1);
-            }
+            if(x.first + (x.second - 1) > y.first) continue;
+            
+            ans = ans + (x.second - 1)*(y.second - 1);
         }
     }
 
