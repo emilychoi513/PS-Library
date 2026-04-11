@@ -36,7 +36,7 @@ int main() {
     for(auto x:Open){
         for(auto y:Close){
             if(x.first + (x.second - 1) < y.first){
-                ans += (x.second - 1);
+                ans += (x.second - 1) * (y.second - 1);
             }
         }
     }
