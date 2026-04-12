@@ -23,8 +23,9 @@ int main() {
         }
 
         if(Sum < s) break;
-        
-        min_len = min(min_len, r-l+1);
+
+        //cout << l << " " << r-1 << " " << Sum << endl;
+        min_len = min(min_len, r-l);
         Sum -= arr[l];
     }
 
