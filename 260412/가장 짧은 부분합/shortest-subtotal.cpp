@@ -14,18 +14,16 @@ int main() {
         cin >> arr[i];
     }
 
-    int Sum = arr[0];
+    int Sum = 0;
     int r = 0;
-    bool flag = false;
     for(int l=0; l<n; l++){
-        while(Sum < s){
-            if(r >= n){ flag = true; break; }
-            r++;
+        while(r < n && Sum < s){
             Sum += arr[r];
+            r++;
         }
 
-        if(flag) break;
-        //cout << l << " " << r << " " << Sum << endl;
+        if(Sum < s) break;
+        
         min_len = min(min_len, r-l+1);
         Sum -= arr[l];
     }
