@@ -12,18 +12,10 @@ int main() {
     }
 
     int cnt = 0;
-    int Sum = 0;
-    while(Sum < k){
-        cnt++;
-
-        for(int i=n-1; i>=0; i--){
-            if(Sum + coins[i] > k) continue;
-
-            Sum += coins[i];
-            break;
-        }
-
-        //cout << cnt << " " << Sum << endl;
+    for(int i=n-1; i>=0; i--){
+        cnt += k/coins[i];
+        k %= coins[i];
+        //cout << k << endl;
     }
 
     cout << cnt;
