@@ -17,14 +17,13 @@ int main() {
         arr[i] = 1 - arr[i];
 
         int sum = 0;
-        int mul = 1;
-        for(int j=a.size()-1; j>=0; j--){
-            sum += arr[j] * mul;
-            mul *= 2;
+        for(int j=0; j<a.size(); j++){
+            sum = sum * 2 + arr[j];
         }
 
         arr[i] = 1 - arr[i];
         answer = max(answer, sum);
+        //cout << sum << endl;
     }
 
     cout << answer;
