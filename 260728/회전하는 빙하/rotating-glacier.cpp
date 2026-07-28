@@ -12,8 +12,10 @@ int n, q;
 int grid[100][100];
 int temp_grid[100][100];
 
+int dx[4] = {0, 1, 0, -1};
+int dy[4] = {1, 0, -1, 0};
+
 //Flood Fill
-queue<pair<int, int>> qq;
 bool visited[100][100];
 
 void input_grid(){
@@ -38,6 +40,17 @@ void Print(){
     }cout << endl;
 }
 
+void move_box(int st_r, int st_c, int rsize, int dir){
+    for(int r=st_r; r<st_r + rsize; r++){
+        for(int c=st_c; c<st_c + rsize; c++){
+            int nr = r + dx[dir] * rsize;
+            int nc = c + dy[dir] * rsize;
+
+            temp_grid[nr][nc] = grid[r][c];
+        }
+    }
+}
+
 void rotate(int level){
 // 2^L x 2^L 씩 독립적으로 시행되며
 // 2^L만 봤을때 4덩어리가 시계방향 회전
@@ -57,41 +70,14 @@ void rotate(int level){
 
     for(int i=0; i<n; i+=size){
         for(int j=0; j<n; j+=size){
-            //4 -> 1
-            for(int a=0; a<rsize; a++){
-                for(int b=0; b<rsize; b++){
-                    int x = i, y = j;
-                    temp_grid[x+a][y+b] = grid[x+rsize+a][y+b];
-                }
-            }
             //1 -> 2
-            for(int a=0; a<rsize; a++){
-                for(int b=0; b<rsize; b++){
-                    int x = i, y = j+rsize;
-                    temp_grid[x+a][y+b] = grid[x+a][y-rsize+b];
-                }
-            }
+            move_box(i, j, rsize, 0);
             //2 -> 3
-            for(int a=0; a<rsize; a++){
-                for(int b=0; b<rsize; b++){
-                    int x = i+rsize, y = j+rsize;
-                    temp_grid[x+a][y+b] = grid[x-rsize+a][y+b];
-                }
-            }
+            move_box(i, j+rsize, rsize, 1);
             //3 -> 4
-            for(int a=0; a<rsize; a++){
-                for(int b=0; b<rsize; b++){
-                    int x = i+rsize, y = j;
-                    temp_grid[x+a][y+b] = grid[x+a][y+rsize+b];
-                }
-            }
-
-            // //
-            // for(int a=0; a<size; a++){
-            //     for(int b=0; b<size; b++){
-            //         cout << temp_grid[i+a][j+b] << " ";
-            //     } cout << endl;
-            // }cout << endl;
+            move_box(i+rsize, j+rsize, rsize, 2);
+            //4 -> 1
+            move_box(i+rsize, j, rsize, 3);
         }
     }
 
@@ -111,9 +97,6 @@ bool Exit(int x, int y){
 void melt(){
 // 1x1 칸 기준으로 인접한 4칸 중 3칸 이상 빙하라면 안녹음, 3칸 미만 -> -1
 // 동시성 보장 -> temp 배열 만들어서 진행
-    int dx[4] = {-1, 1, 0, 0};
-    int dy[4] = {0, 0, -1, 1};
-
     for(int i=0; i<n; i++){
         for(int j=0; j<n; j++){
             temp_grid[i][j] = grid[i][j];
@@ -155,16 +138,17 @@ int count_total_glacier(){
     return Sum;
 }
 
-int cal_crowd(){
-    int dx[4] = {-1, 1, 0, 0};
-    int dy[4] = {0, 0, -1, 1};
-
+int cal_crowd(pair<int, int> pos){
+    queue<pair<int, int>> q;
     int crowd_size = 0;
 
-    while(!qq.empty()){
+    q.push(pos);
+    visited[pos.first][pos.second] = true;
+
+    while(!q.empty()){
         int x, y;
-        tie(x, y) = qq.front();
-        qq.pop();
+        tie(x, y) = q.front();
+        q.pop();
         crowd_size++;
 
         for(int d=0; d<4; d++){
@@ -172,7 +156,7 @@ int cal_crowd(){
             int ny = y + dy[d];
 
             if(!Exit(nx, ny) && grid[nx][ny]!=0 && !visited[nx][ny]){
-                qq.push({nx, ny});
+                q.push({nx, ny});
                 visited[nx][ny] = true;
             }
         }
@@ -187,10 +171,7 @@ int cal_max_crowd(){
     for(int i=0; i<n; i++){
         for(int j=0; j<n; j++){
             if(grid[i][j] != 0 && !visited[i][j]){
-                qq.push({i, j});
-                visited[i][j] = true;
-                
-                mx = max(mx, cal_crowd());
+                mx = max(mx, cal_crowd({i, j}));
             }
         }
     }
