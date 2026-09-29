@@ -41,17 +41,11 @@ bool Exit(int x, int y){
     return (x<0 || x>=5 || y<0 || y>=5);
 }
 
-vector<pair<int, int>> get_value(vector<vector<int>> mat){ //bfs
+vector<pair<int, int>> get_pieces(vector<vector<int>>& mat){ //bfs
     vector<vector<int>> visited(5, vector<int>(5, 0));
     vector<pair<int, int>> result;
     int dx[] = {-1, 1, 0, 0};
     int dy[] = {0, 0, -1, 1};
-
-    // for(int i=0; i<5; i++){
-    //     for(int j=0; j<5; j++){
-    //         cout << mat[i][j] << " ";
-    //     }cout << endl;
-    // }
 
     for(int i=0; i<5; i++){
         for(int j=0; j<5; j++){
@@ -87,6 +81,14 @@ vector<pair<int, int>> get_value(vector<vector<int>> mat){ //bfs
     return result;
 }
 
+void rotate90(vector<int>& tmp){
+    int t0 = tmp[6]; int t1 = tmp[7];
+    for(int p=7; p>=2; p--){
+        tmp[p] = tmp[p-2];
+    }
+    tmp[0] = t0; tmp[1] = t1;
+}
+
 int explore(){
     priority_queue<tuple<int, int, int, int>> pq;
     //탐사하기
@@ -97,30 +99,16 @@ int explore(){
                 tmp.push_back(grid[i+dr[k]][j+dc[k]]);
             }
 
-            // cout << "core: " << i << " " << j << endl;
-            // for(int c=0; c<8; c++) cout << tmp[c] << " "; cout << endl;
-            
             for(int a=0; a<3; a++){
-                int t0 = tmp[6]; int t1 = tmp[7];
-                for(int p=7; p>=2; p--){
-                    tmp[p] = tmp[p-2];
-                }
-                tmp[0] = t0; tmp[1] = t1;
+                rotate90(tmp);
 
-                // cout << "rotate: " << a << endl;
-                // for(int c=0; c<8; c++) cout << tmp[c] << " "; cout << endl;
+                vector<vector<int>> mat = grid;
 
-                vector<vector<int>> mat(5, vector<int>(5, 0));
-                for(int b=0; b<5; b++){
-                    for(int c=0; c<5; c++){
-                        mat[b][c] = grid[b][c];
-                    }
-                }
                 for(int b=0; b<8; b++){
                     mat[i+dr[b]][j+dc[b]] = tmp[b];
                 }
 
-                pq.push({get_value(mat).size(), -a, -j, -i});
+                pq.push({(int)get_pieces(mat).size(), -a, -j, -i});
             }
         }
     }
@@ -128,7 +116,6 @@ int explore(){
     int val, rot, x, y;
     tie(val, rot, y, x) = pq.top();
     rot=-rot; x=-x; y=-y;
-    // printf("%d %d %d %d\n", val, rot, x, y);
 
     if(val==0) return 0;
     
@@ -138,11 +125,7 @@ int explore(){
         tmp.push_back(grid[x+dr[k]][y+dc[k]]);
     }
     for(int a=0; a<=rot; a++){ //tmp rotate
-        int t0 = tmp[6]; int t1 = tmp[7];
-        for(int p=7; p>=2; p--){
-            tmp[p] = tmp[p-2];
-        }
-        tmp[0] = t0; tmp[1] = t1;
+        rotate90(tmp);
     }
     for(int b=0; b<8; b++){ //tmp -> grid
         grid[x+dr[b]][y+dc[b]] = tmp[b];
@@ -154,19 +137,14 @@ int explore(){
 void gain(){
     int total = 0;
 
-    //explore 이후 1차 유물 획득
-        //0이면 전체 종료
-    int exp = explore();
-    if(!exp) return;
-
-    //get_value 반복
-        //get_value
+    //get_pieces 반복
+        //get_pieces
             //size==0이면 break
         //비우기
         //채우기
     while(1){
         //유물 조각 자리를 비우기
-        vector<pair<int, int>> vp = get_value(grid);
+        vector<pair<int, int>> vp = get_pieces(grid);
         total += vp.size();
 
         if(vp.size()==0) break;
@@ -197,6 +175,8 @@ int main() {
     widx = 0;
 
     for(int i=0; i<K; i++){
+        //explore 이후 1차 유물 획득: 0이면 전체 종료
+        if(!explore()) break;
         gain();
     }
 
