@@ -42,7 +42,7 @@ bool Exit(int x, int y){
 }
 
 //비워야 하는 칸의 좌표 반환 - 최대 가치(점수)를 함께 알 수 있음
-vector<pair<int, int>> get_pieces(vector<vector<int>>& mat){ //bfs
+vector<pair<int, int>> get_pieces(const vector<vector<int>>& mat){ //bfs
     vector<vector<int>> visited(5, vector<int>(5, 0));
     vector<pair<int, int>> result;
     int dx[] = {-1, 1, 0, 0};
@@ -74,7 +74,6 @@ vector<pair<int, int>> get_pieces(vector<vector<int>>& mat){ //bfs
                 for(auto p:group){
                     result.push_back(p);
                 }
-                // cout << i << " " << j << " " << cnt << endl;
             }
         }
     }
@@ -147,8 +146,8 @@ void gain(){
 
         if(vp.size()==0) break;
 
-        for(int i=0; i<vp.size(); i++){
-            grid[vp[i].first][vp[i].second]=0;
+        for(auto [r, c]:vp){
+            grid[r][c] = 0;
         }
         Print();
 
