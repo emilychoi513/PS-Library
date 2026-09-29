@@ -41,6 +41,7 @@ bool Exit(int x, int y){
     return (x<0 || x>=5 || y<0 || y>=5);
 }
 
+//비워야 하는 칸의 좌표 반환 - 최대 가치(점수)를 함께 알 수 있음
 vector<pair<int, int>> get_pieces(vector<vector<int>>& mat){ //bfs
     vector<vector<int>> visited(5, vector<int>(5, 0));
     vector<pair<int, int>> result;
@@ -81,6 +82,7 @@ vector<pair<int, int>> get_pieces(vector<vector<int>>& mat){ //bfs
     return result;
 }
 
+//90도 시계 방향 회전
 void rotate90(vector<int>& tmp){
     int t0 = tmp[6]; int t1 = tmp[7];
     for(int p=7; p>=2; p--){
@@ -89,9 +91,10 @@ void rotate90(vector<int>& tmp){
     tmp[0] = t0; tmp[1] = t1;
 }
 
+//탐사 진행
 int explore(){
     priority_queue<tuple<int, int, int, int>> pq;
-    //탐사하기
+    //탐사하기 -> 최적의 좌표, 회전각도를 찾기
     for(int i=1; i<=3; i++){
         for(int j=1; j<=3; j++){
             vector<int> tmp;
@@ -119,7 +122,7 @@ int explore(){
 
     if(val==0) return 0;
     
-    //grid에 반영하기
+    //grid에 반영하기 -> 찾은 최적의 조합으로 grid에 반영하기
     vector<int> tmp; //tmp
     for(int k=0; k<8; k++){
         tmp.push_back(grid[x+dr[k]][y+dc[k]]);
@@ -137,11 +140,6 @@ int explore(){
 void gain(){
     int total = 0;
 
-    //get_pieces 반복
-        //get_pieces
-            //size==0이면 break
-        //비우기
-        //채우기
     while(1){
         //유물 조각 자리를 비우기
         vector<pair<int, int>> vp = get_pieces(grid);
@@ -177,6 +175,7 @@ int main() {
     for(int i=0; i<K; i++){
         //explore 이후 1차 유물 획득: 0이면 전체 종료
         if(!explore()) break;
+        //비우고 채워는 걸 반복 -> 점수 업데이트하기
         gain();
     }
 
