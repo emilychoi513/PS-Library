@@ -86,59 +86,57 @@ bool there_is_turtle(int r, int c){ //10
     return false;
 }
 
-int Dist(int r, int c){
-    queue<tuple<int, int, int>> q;
-    vector<vector<bool>> visited(N+2, vector<bool>(N+2, false));
+int FindDir(int ti){
+    vector<vector<bool>> turt(N+2, vector<bool>(N+2, 0));
+    queue<pair<int, int>> q;
+    vector<vector<int>> dist(N+2, vector<int>(N+2, -1));
 
-    q.push({r, c, 1}); visited[r][c]=true;
+    for(int t=0; t<M; t++){ //안식처에 도달하지 않은 것만 기록.
+        if(tt[t].turn <= 0){
+            turt[tt[t].r][tt[t].c] = true;
+        }
+    }
+
+    q.push({N, N}); dist[N][N]=0;
 
     while(!q.empty()){
-        auto [x, y, dist] = q.front(); q.pop();
-
-        if(x == N && y == N){
-            return dist;
-        }
+        auto [x, y] = q.front(); q.pop();
 
         for(int d=0; d<4; d++){
             int nx = x + dr[d];
             int ny = y + dc[d];
 
-            if(grid[nx][ny]==0 && !there_is_turtle(nx, ny) && !visited[nx][ny]){
-                q.push({nx, ny, dist+1}); visited[nx][ny]=true;
+            if(grid[nx][ny]==0 && !turt[nx][ny] && dist[nx][ny]==-1){
+                q.push({nx, ny}); dist[nx][ny]=dist[x][y]+1;
             }
         }
     }
 
-    return -1;
+    int dis = INT_MAX; int dir = -1;
+    for(int d=0; d<4; d++){
+        int nr = tt[ti].r + dr[d];
+        int nc = tt[ti].c + dc[d];
+        if(dist[nr][nc]!=-1 && dist[nr][nc] < dis){
+            dis = dist[nr][nc];
+            dir = d;
+        }
+    }
+
+    return dir;
 }
 
 void TurtleMove(int turn){
     for(int t=0; t<M; t++){
         if(tt[t].turn != 0) continue;
 
-        int dist = INT_MAX;
-        int dir = -1;
-        for(int d=0; d<4; d++){
-            int nr = tt[t].r + dr[d];
-            int nc = tt[t].c + dc[d];
+        int dir = FindDir(t);
+        if(dir == -1) continue;
 
-            if(grid[nr][nc]==1) continue;
-            if(there_is_turtle(nr, nc)) continue;
+        tt[t].r += dr[dir];
+        tt[t].c += dc[dir];
 
-            int tmp_dist = Dist(nr, nc);
-            if(tmp_dist != -1 && tmp_dist < dist){
-                dist = tmp_dist;
-                dir = d;
-            }
-        }
-
-        if(dist != INT_MAX){
-            tt[t].r += dr[dir];
-            tt[t].c += dc[dir];
-
-            if(tt[t].r == N && tt[t].c == N){
-                tt[t].turn = turn;
-            }
+        if(tt[t].r == N && tt[t].c == N){
+            tt[t].turn = turn;
         }
     }
 }
