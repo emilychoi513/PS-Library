@@ -99,11 +99,11 @@ void Explore(){
 //         }
 //     }
 
-//     int ar, ac;
+//     int ar=-1, ac=-1;
 //     int adist = INT_MAX;
 //     for(int i=1; i<=N; i++){
 //         for(int j=1; j<=N; j++){
-//             if(grid[i][j]==0 && !visited[i][j] && v[i][j] < adist){
+//             if(grid[i][j]==0 && !visited[i][j] && v[i][j]!=-1 && v[i][j] < adist){
 //                 adist = v[i][j];
 //                 ar = i;
 //                 ac = j;
@@ -140,6 +140,8 @@ pair<int, int> FindSea(){
             }
         }
     }
+
+    return {-1, -1};
 }
 
 void Move2Sea(){
