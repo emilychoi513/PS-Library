@@ -80,38 +80,66 @@ void Explore(){
     }
 }
 
-pair<int, int> FindSea(){
-    queue<pair<int, int>> q;
-    vector<vector<int>> v(N+2, vector<int>(N+2, -1));
+// pair<int, int> FindSea(){
+//     queue<pair<int, int>> q;
+//     vector<vector<int>> v(N+2, vector<int>(N+2, -1));
 
-    q.push({w.r, w.c}); v[w.r][w.c]=0;
+//     q.push({w.r, w.c}); v[w.r][w.c]=0;
+
+//     while(!q.empty()){
+//         auto [r, c] = q.front(); q.pop();
+
+//         for(int i=0; i<4; i++){
+//             int nr = r + dr[i];
+//             int nc = c + dc[i];
+
+//             if(grid[nr][nc]==0 && v[nr][nc]==-1){
+//                 q.push({nr, nc}); v[nr][nc]=v[r][c]+1;
+//             }
+//         }
+//     }
+
+//     int ar, ac;
+//     int adist = INT_MAX;
+//     for(int i=1; i<=N; i++){
+//         for(int j=1; j<=N; j++){
+//             if(grid[i][j]==0 && !visited[i][j] && v[i][j] < adist){
+//                 adist = v[i][j];
+//                 ar = i;
+//                 ac = j;
+//             }
+//         }
+//     }
+//     // cout << "sea: " << ar << " " << ac << endl;
+//     return {ar, ac};
+// }
+
+
+pair<int, int> FindSea(){
+    priority_queue<tuple<int, int, int>> q;
+    vector<vector<bool>> v(N+2, vector<bool>(N+2, false));
+
+    q.push({0, -w.r, -w.c}); v[w.r][w.c]=true;
 
     while(!q.empty()){
-        auto [r, c] = q.front(); q.pop();
+        auto [cnt, r, c] = q.top(); q.pop();
+        cnt = -cnt; r = -r; c = -c;
+        // printf("pop %d %d %d\n", cnt, r, c);
+
+        if(grid[r][c]==0 && !visited[r][c]){
+            return {r, c};
+        }
 
         for(int i=0; i<4; i++){
             int nr = r + dr[i];
             int nc = c + dc[i];
 
-            if(grid[nr][nc]==0 && v[nr][nc]==-1){
-                q.push({nr, nc}); v[nr][nc]=v[r][c]+1;
+            if(grid[nr][nc]==0 && !v[nr][nc]){
+                q.push({-(cnt+1), -nr, -nc}); 
+                v[nr][nc]=true;
             }
         }
     }
-
-    int ar, ac;
-    int adist = INT_MAX;
-    for(int i=1; i<=N; i++){
-        for(int j=1; j<=N; j++){
-            if(grid[i][j]==0 && !visited[i][j] && v[i][j] < adist){
-                adist = v[i][j];
-                ar = i;
-                ac = j;
-            }
-        }
-    }
-    // cout << "sea: " << ar << " " << ac << endl;
-    return {ar, ac};
 }
 
 void Move2Sea(){
