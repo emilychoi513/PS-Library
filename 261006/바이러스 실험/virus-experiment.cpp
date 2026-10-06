@@ -5,13 +5,14 @@
 #include <queue>
 #include <tuple>
 #include <climits>
+#include <deque>
 #define D 0
 using namespace std;
 
 int N, M, K;
 int grid[15][15];
 int grow[15][15];
-vector<int> vs[15][15];
+deque<int> vs[15][15];
 
 void Print(){
     if(!D) return;
@@ -52,6 +53,7 @@ void Input(){
     for(int i=1; i<=N; i++){
         for(int j=1; j<=N; j++){
             grid[i][j] = 5;
+            sort(vs[i][j].begin(), vs[i][j].end());
         }
     }
 }
@@ -60,17 +62,14 @@ void Take_and_Push(){
     for(int i=1; i<=N; i++){
         for(int j=1; j<=N; j++){
             int died = 0;
-            sort(vs[i][j].begin(), vs[i][j].end()); //오름차순
-            vector<int> tmp;
+            deque<int> tmp;
 
-            for(int v=0; v<vs[i][j].size(); v++){
-                if(vs[i][j][v]==INT_MAX) break;
-
-                if(vs[i][j][v] <= grid[i][j]){
-                    grid[i][j] -= vs[i][j][v];
-                    tmp.push_back(vs[i][j][v]+1);
+            for(int x:vs[i][j]){
+                if(x <= grid[i][j]){
+                    grid[i][j] -= x;
+                    tmp.push_back(x+1);
                 }else{
-                    died += vs[i][j][v]/2;
+                    died += x/2;
                 }
             }
 
@@ -90,8 +89,6 @@ void Spread(){
 
     for(int i=1; i<=N; i++){
         for(int j=1; j<=N; j++){
-            sort(vs[i][j].begin(), vs[i][j].end());
-
             for(int x:vs[i][j]){
                 if(x%5==0){
                     for(int d=0; d<8; d++){
@@ -99,7 +96,7 @@ void Spread(){
                         int nj = j + dc[d];
 
                         if(!Exit(ni, nj)){
-                            vs[ni][nj].push_back(1);
+                            vs[ni][nj].push_front(1);
                         }
                     }
                 }
