@@ -65,6 +65,8 @@ void MoveRobot(int ri){
     queue<pair<int, int>> q;
     vector<vector<int>> visited(N+2, vector<int>(N+2, -1));
 
+    if(grid[rb[ri].r][rb[ri].c] > 0) return;
+
     for(int i=0; i<K; i++){
         if(i==ri) continue;
         robot[rb[i].r][rb[i].c] = 1;
@@ -138,6 +140,7 @@ void Clean(int ri){
     }
 
     // printf("%d clean: sum %d, dir %d\n", ri, tar_sum, tar_dir);
+    if(tar_dir == -1) return;
 
     int tdr[] = {0, dr[tar_dir], dr[(tar_dir+3)%4], dr[(tar_dir+1)%4]};
     int tdc[] = {0, dc[tar_dir], dc[(tar_dir+3)%4], dc[(tar_dir+1)%4]};
