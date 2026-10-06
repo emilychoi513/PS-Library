@@ -129,12 +129,7 @@ int CheckVirus(){
 
     for(int i=1; i<=N; i++){
         for(int j=1; j<=N; j++){
-            sort(vs[i][j].begin(), vs[i][j].end());
-            
-            for(int x:vs[i][j]){
-                if(x == INT_MAX) break;
-                s++;
-            }
+            s += vs[i][j].size();
         }
     }
 
