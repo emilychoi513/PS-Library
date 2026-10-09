@@ -166,15 +166,11 @@ void Dinner(){
                 x = 0;
 
                 for(char waving:F[r][c]){
-                    bool flag = false;
-                    for(char waved:F[nr][nc]){
-                        if(waved == waving) flag = true;
-                    }
-
-                    if(!flag){
+                    if(find(F[nr][nc].begin(), F[nr][nc].end(), waving) == F[nr][nc].end()){
                         F[nr][nc].push_back(waving);
                     }
                 }
+                
                 sort(F[nr][nc].begin(), F[nr][nc].end());
             }
         }
