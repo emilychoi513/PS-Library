@@ -64,14 +64,9 @@ void Push(int mid){
     queue<pair<int, int>> q;
     vector<vector<int>> v(N, vector<int>(N, 0));
 
-    vector<int> visited_group(Q+1, 0);
-    vector<int> rm_group(Q+1, 0);
+    vector<int> comp_cnt(Q+1, 0);
     
-    vector<Micro> tmp_mic(Q+1);
-
-    for(int i=1; i<=Q; i++){
-        tmp_mic[i] = {0, -1, -1};
-    }
+    vector<Micro> tmp_mic(Q+1, {0, -1, -1});
 
     for(int i=0; i<N; i++){
         for(int j=0; j<N; j++){
@@ -97,17 +92,16 @@ void Push(int mid){
 
             // area, i, j
             int id = grid[i][j];
-            if(visited_group[id]) rm_group.push_back(id); 
-            
-            visited_group[id] = 1;
+            comp_cnt[id]++;
             tmp_mic[id] = {area, i, j};
         }
     }
 
 
-    for(int id:rm_group){
-        tmp_mic[id] = {0, -1, -1};
+    for(int id=1; id<=Q; id++){
+        if(comp_cnt[id] < 2) continue;
 
+        tmp_mic[id] = {0, -1, -1};
         for(int i=0; i<N; i++){
             for(int j=0; j<N; j++){
                 if(grid[i][j] == id){
@@ -118,8 +112,6 @@ void Push(int mid){
     }
 
     mic = tmp_mic;
-
-    // printf("%d번째: \n", mid); Print();
 }
 
 void Move(){
@@ -200,10 +192,6 @@ void Move(){
 }
 
 void Result(){
-// 실험 결과 기록
-// 1. near 2차원 배열 만들어서(near[A][B] = 1, near[B][A] = 1)
-// 2. grid BFS: 모든 인접한 무리 쌍 찾기
-// 3. 모든 무리의 영역 넓이 반영해서 결과 출력
     int dx[] = {-1, 1, 0, 0};
     int dy[] = {0, 0, -1, 1};
     vector<vector<int>> near(Q+1, vector<int>(Q+1, 0));
@@ -229,9 +217,9 @@ void Result(){
         }
     }
 
-    int ans = 0;
+    long long ans = 0;
     for(int i=1; i<=Q; i++){
-        for(int j=i; j<=Q; j++){
+        for(int j=i+1; j<=Q; j++){
             if(near[i][j] == 1){
                 ans += mic[i].area * mic[j].area;
             }
