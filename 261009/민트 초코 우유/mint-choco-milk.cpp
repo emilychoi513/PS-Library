@@ -150,7 +150,7 @@ void Dinner(){
         int nr = r;
         int nc = c;
         while(1){
-            if(x == 0) break;
+            if(x <= 0) break;
 
             nr += dr[dir];
             nc += dc[dir];
