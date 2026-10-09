@@ -68,8 +68,9 @@ vector<pair<int, int>> Lunch(){
         for(int j=1; j<=N; j++){
             if(v[i][j]) continue;
 
-            vector<vector<int>> group(N+1, vector<int>(N+1, 0));
-            q.push({i, j}); group[i][j] = 1;
+            vector<pair<int, int>> group;
+            q.push({i, j}); v[i][j] = 1;
+            group.push_back({i, j});
 
             while(!q.empty()){
                 int x, y;
@@ -79,35 +80,31 @@ vector<pair<int, int>> Lunch(){
                     int nx = x + dx[d];
                     int ny = y + dy[d];
 
-                    if(!Exit(nx, ny) && !group[nx][ny] && F[nx][ny] == F[i][j]){
+                    if(!Exit(nx, ny) && !v[nx][ny] && F[nx][ny] == F[i][j]){
                         q.push({nx, ny});
-                        group[nx][ny] = 1;
+                        v[nx][ny] = 1;
+                        group.push_back({nx, ny});
                     }
                 }
             }
 
             //대표자 정하기
-            int hr = -1; int hc = -1;
-            int mx = -1;
-            int num = 0;
-            for(int a=1; a<=N; a++){
-                for(int b=1; b<=N; b++){
-                    if(group[a][b] == 0) continue;
-                    
-                    v[a][b] = 1;
-                    num++;
-                    
-                    if(B[a][b] > mx){
-                        mx = B[a][b];
-                        hr = a; hc = b;
-                    }
-
-                    B[a][b]--;
+            int hr = i; int hc = j;
+            int mx = B[i][j];
+            for(pair<int,int> p:group){
+                int tr, tc;
+                tie(tr, tc) = p;
+                if(make_tuple(B[tr][tc], -tr, -tc) > make_tuple(mx, -hr, -hc)){
+                    mx = B[tr][tc];
+                    hr = tr;
+                    hc = tc;
                 }
+
+                B[tr][tc]--;
             }
 
             //신앙심 옮기기
-            B[hr][hc] += num;
+            B[hr][hc] += group.size();
 
             // printf("[%d %d %d %d]\n", F[hr][hc].size(), B[hr][hc], hr, hc);
             // printf("%d %d\n", hr, hc);
